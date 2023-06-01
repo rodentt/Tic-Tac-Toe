@@ -5,7 +5,7 @@ class Board:
     This class represents a game board for tic-tac-toe
 
     Methods:
-    addPiece(str, int): Adds a piece to the board at the given position
+        addPiece(str, int): Adds a piece to the board at the given position
     """
     def __init__(self):
         """

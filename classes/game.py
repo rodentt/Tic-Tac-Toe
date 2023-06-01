@@ -26,6 +26,8 @@ class Game:
 
     Methods:
         takeTurn(int): Adds a piece to the board at the given position
+        getTurn(): Retrieves turn color
+        getBoard(): Retrieves board
     """    
 
     def __init__(self):
@@ -53,6 +55,15 @@ class Game:
             str: string representation of current turn
         """        
         return str(self._turn)
+    
+    def getBoard(self):
+        """
+        Returns board string representation
+
+        Returns:
+            str: string representation of current board
+        """
+        return str(self._gameBoard)
     
     def _continueGame(self):
         """
@@ -86,6 +97,3 @@ class Game:
 
         # returns the game condition
         return self._continueGame()
-
-    
-        
