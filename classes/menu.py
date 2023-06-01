@@ -1,3 +1,5 @@
+from classes.board import Board
+
 class Menu:
     """
     Game menu which displays prompts and gets user input.
@@ -10,10 +12,18 @@ class Menu:
         displayOutcome(str): Displays the game outcome if it's ended.
         offerNewGame(): Prints a prompt offering a new game to user and gets response.
     """    
+    
+    def __init__(self):
+        self._referenceBoard = Board()
+        for i in range(1, 10):
+            self._referenceBoard.replacePiece(str(i), i)
+            
     def welcomeUser(self):
         """ Welcomes user and gives game instructions. """        
-        pass
-
+        print("Welcome to console line tic-tac-toe!")
+        print("When you place a piece, use the following board as a reference for piece positions:")
+        print(self._referenceBoard)
+        
     def getMove(self):
         """ 
         Gets move from user. 
@@ -21,7 +31,18 @@ class Menu:
         Returns:
             int: a position to place a piece on the board
         """  
-        pass
+        validInput = False
+        position = None
+        while not validInput:
+            try:
+                position = input("Enter position for your piece: ")
+                position = int(position)
+                break
+            except:
+                print("Given position is not an integer")
+                continue
+        
+        return position
 
     def displayBoard(self, board):
         """
@@ -30,7 +51,7 @@ class Menu:
         Args:
             board (str): string representation of board to print
         """
-        pass
+        print(board)
 
     def displayMoveError(self, message):
         """
@@ -39,7 +60,7 @@ class Menu:
         Args:
             message (str): move error message
         """
-        pass
+        print(message)
 
     def displayOutcome(self, gameCondition):
         """

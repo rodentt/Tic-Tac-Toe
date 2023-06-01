@@ -35,7 +35,7 @@ class Game:
         The constructor for the Game class.
         Initializes a board and initial turn color.
         """        
-        self._gameBoard = Board(self)
+        self._gameBoard = Board()
         self._turn = TurnColor.WHITE
     
     def _toggleTurn(self):
