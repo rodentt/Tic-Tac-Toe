@@ -120,7 +120,7 @@ class Game:
         gameCondition = checkForWin()
 
         # if there's been no win after all pieces are placed, there's a draw
-        if self._numPieces == 9:
+        if self._numPieces == 9 and gameCondition == GameOutcome.CONTINUE:
             gameCondition = GameOutcome.DRAW
         
         return str(gameCondition)
