@@ -28,6 +28,7 @@ class Game:
         takeTurn(int): Adds a piece to the board at the given position
         getTurn(): Retrieves turn color
         getBoard(): Retrieves board
+        getNumPieces(): Retrieves number of pieces on board
     """    
 
     def __init__(self):
@@ -37,6 +38,7 @@ class Game:
         """        
         self._gameBoard = Board()
         self._turn = TurnColor.WHITE
+        self._numPieces = 0
     
     def _toggleTurn(self):
         """
@@ -65,6 +67,15 @@ class Game:
         """
         return str(self._gameBoard)
     
+    def getNumPieces(self):
+        """
+        Returns number of pieces on board
+
+        Returns: 
+            int: number of pieces on board
+        """
+        return self._numPieces
+    
     def _continueGame(self):
         """
         Checks whether the game should continue or not.
@@ -72,7 +83,47 @@ class Game:
         Returns:
             str: string representation of game condition (win, draw, to continue)
         """
-        pass
+
+        def checkForWin():
+            """
+            Checks if white or black won the tic-tac-toe game
+
+            Returns:
+                enum: Returns a game outcome specifying a winner if applicable 
+            """
+
+            # helper function that determines if white or black won in case of a victory
+            getWinner = lambda piece: GameOutcome.WHITEWINS if piece == "O" else GameOutcome.BLACKWINS
+
+            # checks for win along rows and columns
+            rowPositions = [1, 2, 3]
+            colPositions = [1, 4, 7]
+            for i in range(0, 3):
+                if (self._gameBoard).checkPositions(rowPositions):
+                    return getWinner((self._gameBoard)[rowPositions[0]])
+                elif (self._gameBoard).checkPositions(colPositions):
+                    return getWinner((self._gameBoard)[colPositions[0]])
+                
+                # changes the row/col to check next
+                rowPositions = [x + 3 for x in rowPositions]
+                colPositions = [x + 1 for x in colPositions]
+            
+            # checks for win along diagonals
+            if (self._gameBoard).checkPositions([1, 5, 9]):
+                return getWinner((self._gameBoard)[1])
+            elif (self._gameBoard).checkPositions([3, 5, 7]):
+                return getWinner((self._gameBoard)[3])
+            else:
+                return GameOutcome.CONTINUE
+ 
+        # check for a win along all possible diagonals, columns and rows
+        gameCondition = checkForWin()
+
+        # if there's been no win after all pieces are placed, there's a draw
+        if self._numPieces == 9:
+            gameCondition = GameOutcome.DRAW
+        
+        return str(gameCondition)
 
     def takeTurn(self, position):
         """
@@ -91,6 +142,7 @@ class Game:
 
         # tries to add piece to board 
         (self._gameBoard).addPiece(self.getTurn(), position)
+        self._numPieces += 1
 
         # changes turn
         self._toggleTurn()

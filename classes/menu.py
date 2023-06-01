@@ -6,7 +6,7 @@ class Menu:
 
     Methods:
         welcomeUser(): Welcomes user and gives game instructions. 
-        getMove(): Gets move from user.
+        getMove(str): Gets move from user.
         displayBoard(str): Prints given tic-tac-toe board.
         displayMoveError(str): Prints given move error message.
         displayOutcome(str): Displays the game outcome if it's ended.
@@ -21,27 +21,34 @@ class Menu:
     def welcomeUser(self):
         """ Welcomes user and gives game instructions. """        
         print("Welcome to console line tic-tac-toe!")
+        print("You may press q to quit at any time")
         print("When you place a piece, use the following board as a reference for piece positions:")
         print(self._referenceBoard)
+        print("")
         
-    def getMove(self):
+    def getMove(self, turn):
         """ 
         Gets move from user. 
 
+        args:
+            turn (str): the turn color
+
         Returns:
-            int: a position to place a piece on the board
+            int: a position to place a piece on the board, None if user wants to quit
         """  
         validInput = False
         position = None
+        print(f"It's {turn}'s turn!")
         while not validInput:
             try:
-                position = input("Enter position for your piece: ")
-                position = int(position)
+                position = input("Please enter the position for your piece (1 - 9): ")
+                position = None if position == "q" else int(position)
                 break
             except:
                 print("Given position is not an integer")
                 continue
         
+        print("")
         return position
 
     def displayBoard(self, board):
@@ -73,7 +80,18 @@ class Menu:
         Returns:
             (bool): whether the game has ended or not
         """
-        pass
+        match(gameCondition):
+            case "whitewins":
+                print("Congratulations! White won!\n")
+                return True
+            case "blackwins":
+                print("Congratulations! Black won!\n")
+                return True
+            case "draw":
+                print("Game has ended in a draw\n")
+                return True
+            case _:
+                return False
 
     def offerNewGame(self):
         """
@@ -82,4 +100,8 @@ class Menu:
         Returns:
             (bool): whether a new game should start
         """
-        pass
+        
+        print("Would you like to play again?")
+        userInput = input("Press y for yes, any other key for no: ")
+        print("")
+        return userInput == "y"

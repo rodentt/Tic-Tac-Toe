@@ -5,8 +5,9 @@ class Board:
     This class represents a game board for tic-tac-toe
 
     Methods:
-        addPiece(str, int): Adds a piece to the board at the given position
+        addPiece(str, int): Adds a piece to the board at the given position.
         replacePiece(str, int): Adds a piece at the given position, replacing any if necessary.
+        checkPositions(list): Checks if the given positions have the same piece, excluding blank spots.
     """
     def __init__(self):
         """
@@ -53,6 +54,47 @@ class Board:
         # joins row list and creates board representation
         return "\n".join(boardStr)
     
+    def __getitem__(self, index):
+        """
+        Retrieves piece at the given position.
+
+        Pre:
+            Given index is valid (between 1 - 9)
+
+        Args:
+            index (int): position of piece to retrieve
+
+        Returns:
+            str: piece at given position
+        """
+        return (self._board)[index - 1]
+    
+    def checkPositions(self, positions):
+        """
+        Checks if the given positions have the same piece, excluding blank spots.
+
+        Pre:
+            given positions list must contain at least one element, all integers between 1 - 9
+
+        Args:
+            positions (list): list of the positions to check
+
+        Returns:
+            bool: True if the pieces at the positions match, false otherwise
+        """
+
+        # gets first piece to compare all others with
+        piece = self._board[positions[0] - 1]
+
+        # iterates over all the pieces referenced in the positions list
+        # compares them with the initial piece to check if they all match up
+        for i in positions:
+            current_piece = self._board[i - 1]
+            if current_piece == " " or current_piece != piece:
+                return False
+        
+        return True
+
     def replacePiece(self, piece, position):
         """
         Adds a piece at the given position, replacing any if necessary.

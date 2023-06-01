@@ -18,7 +18,11 @@ while startGame:
     while continueGame:
 
         # gets the position to place the next piece
-        position = gameMenu.getMove()
+        position = gameMenu.getMove(game.getTurn())
+
+        # case that the user wanted to quit the game
+        if position == None:
+            break
 
         # tries to place piece
         try:
@@ -26,11 +30,11 @@ while startGame:
             gameCondition = game.takeTurn(position)
             boardStr = game.getBoard()
             gameMenu.displayBoard(boardStr)
-            continueGame = gameMenu.displayOutcome(gameCondition)
+            continueGame = not gameMenu.displayOutcome(gameCondition)
         
         # tells user why move was invalid and tries to prompt user for move again
-        except InvalidMoveError:
-            gameMenu.displayMoveError(InvalidMoveError.getMessage())
+        except InvalidMoveError as e:
+            gameMenu.displayMoveError(e.getMessage())
             continue
     
     # after ending the game offer a new game
