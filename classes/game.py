@@ -1,5 +1,6 @@
 from classes.board import Board
 from enum import Enum
+from exceptions.invalidMoveError import InvalidMoveError
 
 class TurnColor(Enum):
     """An enumeration of the two turn colors."""    
@@ -24,7 +25,7 @@ class Game:
     This class represents a game of tic-tac-toe
 
     Methods:
-        add_piece(int): Adds a piece to the board at the given position
+        takeTurn(int): Adds a piece to the board at the given position
     """    
 
     def __init__(self):
@@ -62,9 +63,13 @@ class Game:
         """
         pass
 
-    def addPiece(self, position):
+    def takeTurn(self, position):
         """
-        Adds a piece to the board at the given positions
+        Adds a piece at the given position, if possible, 
+        and checks if the game has ended or should continue.
+
+        Exceptions:
+            InvalidMoveError: raised if the given move is invalid
 
         Args:
             position (int): denotes the position on the board to add a piece
@@ -72,7 +77,15 @@ class Game:
         Returns:
             str: string represntation of game condition (to continue or end game)
         """
-        pass
+
+        # tries to add piece to board 
+        (self._gameBoard).addPiece(self.getTurn(), position)
+
+        # changes turn
+        self._toggleTurn()
+
+        # returns the game condition
+        return self._continueGame()
 
     
         
